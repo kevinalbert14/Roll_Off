@@ -33,9 +33,6 @@ def test_loader(test_file):
     q_1 = p_1/"test"              ## The file has to be in the same folder and the name of the test file has to be named as test
     ip_images = []
     ip_im_name = []
-    ip_prend_norm = []
-    ip_out = []
-    ts = []
 
     for img in q_1.iterdir():
         ip_im_name_now = img
@@ -46,3 +43,28 @@ def test_loader(test_file):
         ip_images.append(img_array_resized)
         ip_im_name.append(ip_im_name_now)
     return np.array(ip_images), ip_im_name
+
+
+def timestamps(ip_pred, ip_im_name):
+    ip_pred_norm = []
+    ip_out = []
+    ts = []
+
+    for ip_y in ip_pred:
+        ip_pred_norm.append(np.argmax(ip_y))
+    for i in ip_im_name:
+        nw = str(i)
+        ts.append(str(i)[nw.find('T')-8:nw.find('T')+7])
+        nw = str(i)
+    for y,name,ts in zip(ip_pred_norm,ip_im_name,ts):
+        now = y,str(name),ts
+        ip_out.append(now)
+        dt = {'names':['Pred', 'Name', 'TS'],'formats':[int, object,object]}
+        Y = np.array(ip_out, dtype=dt)
+        Y = np.sort(Y, order='TS')
+        return Y
+
+
+
+
+

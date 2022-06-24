@@ -8,7 +8,7 @@ from tensorflow.keras.preprocessing.image import load_img, img_to_array, smart_r
 from tensorflow.keras import datasets, layers, models
 from pathlib import Path
 import numpy as np
-from imageload import image_load, test_loader
+from imageload import image_load, test_loader, timestamps
 from splitting import splitting_train_test
 from mod import mod
 from accuracy_graph import accuracy_graph
@@ -52,3 +52,5 @@ testing_file = input("Enter the destiation of the testing file")
 test_img, ip_im_name = test_loader(testing_file)
 
 ip_pred = model.predict(test_img)
+
+Y = timestamps(ip_pred, ip_im_name)
