@@ -13,6 +13,7 @@ from splitting import splitting_train_test
 from mod import mod
 from accuracy_graph import accuracy_graph
 from conf_matrix import conf_matrix
+from classifier_state import classifier_state
 
 
 target_dict = dict([("Dump", 0),("Loaded",1),("Unloaded",2),("Inter",3)])
@@ -54,3 +55,31 @@ test_img, ip_im_name = test_loader(testing_file)
 ip_pred = model.predict(test_img)
 
 Y = timestamps(ip_pred, ip_im_name)
+
+### This part of the code needs to be reviewed
+ip_pred_2 = []
+target_dict2 = dict([("Dump", 0),("Loaded",1),("Unloaded",2),("Inter",3)])
+for i in Y['Pred']:
+      need = target_dict2[i]
+      ip_pred_2.append(need)
+
+
+ip_pred_2, number = classifier_state(ip_pred_2, Y)
+
+                  
+
+                              
+                                   
+
+
+
+
+                                    
+
+
+
+
+
+
+      
+
