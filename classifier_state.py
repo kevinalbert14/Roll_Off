@@ -71,4 +71,4 @@ def classifier_state(ip_pred_2, Y):
                               ip_pred_2.append(target_dict2[8])
                   else:
                        ip_pred_2.append(target_dict2[6])
-      return ip_pred_2, number
+      return ip_pred_2, number, target_dict2
