@@ -11,7 +11,7 @@ import numpy as np
 from imageload import image_load, test_loader, timestamps
 from splitting import splitting_train_test
 from mod import mod
-from accuracy_graph import accuracy_graph
+from accuracy_graph import accuracy_graph, rep_1
 from conf_matrix import conf_matrix
 from classifier_state import classifier_state
 
@@ -66,7 +66,9 @@ for i in Y['Pred']:
 
 ip_pred_2, number = classifier_state(ip_pred_2, Y)
 
-                  
+report_1 = rep_1(ip_pred_2,Y['TS'])
+
+
 
                               
                                    

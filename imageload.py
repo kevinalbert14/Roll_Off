@@ -62,7 +62,7 @@ def timestamps(ip_pred, ip_im_name):
         dt = {'names':['Pred', 'Name', 'TS'],'formats':[int, object,object]}
         Y = np.array(ip_out, dtype=dt)
         Y = np.sort(Y, order='TS')
-        return Y
+    return Y
 
 
 
