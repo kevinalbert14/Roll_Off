@@ -37,7 +37,157 @@ def tsreport(pred, tsp, target_dict2):
     elspd = ('Time enlapsed between Start and End state',time_elapsed)
     return strt, end, elspd
 
+def events(pred, tsp):
+    a = 0
+    data = datetime.date(1, 1, 1)
+    Lding = []
+    Uding = []
+    Ding = []
+    Lded = []
+    Ulded = []
+    ding_s = 0
+    lding_s = 0
+    uding_s = 0
+    lded_s = 0
+    ulded_s = 0
+    for i,j in zip(pred, tsp):
+        a = j
+        if(i =='Unloading' and uding_s == 0):
+            Uding.append(j)
+            uding_s = 1
+            if(lding_s != 0):
+                Lding.append(j)
+                lding_s = 0
+            elif(ding_s!=0):
+                Ding.append(j)
+                ding_s = 0
+            elif(lded_s != 0):
+                Lded.append(j)
+                lded_s = 0
+            elif(ulded_s!=0):
+                Ulded.append(j)
+                ulded_s = 0
+            else:
+                print('No Acttion')
 
+        if(i=='Loading' and lding_s ==0):
+            print('Loading start',j)
+            Lding.append(j)
+            lding_s = 1
+            if(uding_s !=0):
+                print('Unloading end',j)
+                Uding.append(j)
+                uding_s = 0
+            elif(ding_s!=0):
+                print('Dumping end',j)
+                Ding.append(j)
+                ding_s = 0
+            elif(lded_s!=0):
+                print('Loaded end',j)
+                Lded.append(j)
+                lded_s = 0
+            elif(ulded_s!=0):
+                print('Unloaded end',j)
+                Ulded.append(j)
+                ulded_s = 0
+            else:
+                print('No Acttion')
+
+        if(i=='Unloaded' and ulded_s ==0):
+            print('Unloaded start',j)
+            Ulded.append(j)
+            ulded_s = 1
+            if(uding_s !=0):
+                print('Unloading end',j)
+                Uding.append(j)
+                uding_s = 0
+            elif(ding_s!=0):
+                print('Dumping end',j)
+                Ding.append(j)
+                ding_s = 0
+            elif(lded_s!=0):
+                print('Loaded end',j)
+                Lded.append(j)
+                lded_s = 0
+            elif(lding_s!=0):
+                print('Loading end',j)
+                Lding.append(j)
+                lding_s= 0
+            else:
+                print('No Action')
+
+        if(i=='Loaded' and lded_s ==0):
+            print('loaded start',j)
+            Lded.append(j)
+            lded_s = 1
+            if(uding_s !=0):
+                print('Unloading end',j)
+                Uding.append(j)
+                uding_s = 0
+            elif(ding_s!=0):
+                print('Dumping end',j)
+                Ding.append(j)
+                ding_s = 0
+            elif(ulded_s!=0):
+                print('Unloaded end',j)
+                Ulded.append(j)
+                ulded_s= 0
+            elif(lding_s!=0):
+                print('Loading end',j)
+                Lding.append(j)
+                lding_s= 0
+            else:
+                print('No Action')
+
+        if(i=='Dump' and ding_s ==0):
+            print('Dumping start',j)
+            Ding.append(j)
+            ding_s = 1
+            if(uding_s !=0):
+                print('Unloading end',j)
+                Uding.append(j)
+                uding_s = 0
+            elif(lded_s!=0):
+                print('Loaded end',j)
+                Lded.append(j)
+                lded_s= 0
+            elif(ulded_s!=0):
+                print('Unloaded end',j)
+                Ulded.append(j)
+                ulded_s= 0
+            elif(lding_s!=0):
+                print('Loading end',j)
+                Lding.append(j)
+                lding_s= 0
+            else:
+                print('No Acttion')
+
+    print("Loaded_start",lded_s)
+    print("Unloaded_start",ulded_s)
+    print("Loading_start",lding_s)
+    print("Unloading_start",uding_s)
+    print("Dumping_start",ding_s) 
+
+    if(lded_s ==1):
+        print('Loaded End',a)
+        Lded.append(j)
+    elif(ulded_s ==1):
+        print('Unloaded End',a)
+        Ulded.append(j)
+    elif(lding_s ==1):
+
+        print('Loading End',a)
+        Lding.append(j)
+    elif(uding_s ==1):
+        print('Unloading End',a)
+        Uding.append(j)
+    elif(ding_s ==1):
+        print('Dumping End',a)
+        Ding.append(j)
+    else:
+        print("Complete")
+
+    return Lding, Uding, Lded, Ulded, Ding
 
 
 

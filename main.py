@@ -14,7 +14,7 @@ from mod import mod
 from accuracy_graph import accuracy_graph, rep_1
 from conf_matrix import conf_matrix
 from classifier_state import classifier_state
-from tsreport import tsreport
+from tsreport import events, tsreport
 
 
 target_dict = dict([("Dump", 0),("Loaded",1),("Unloaded",2),("Inter",3)])
@@ -71,6 +71,8 @@ ip_pred_2, number, target_dict2 = classifier_state(ip_pred_2, Y)
 report_1 = rep_1(ip_pred_2,Y['TS']) ## This chart needs to be shown in the report.
 
 start_time, end_time, time_elapsed = tsreport(ip_pred_2, Y["TS"], target_dict2)
+
+Loading, Unloading, Loaded, Unloaded, Dumping = events(ip_pred_2, Y["TS"])
 
 
 
