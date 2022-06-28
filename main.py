@@ -72,7 +72,7 @@ report_1 = rep_1(ip_pred_2,Y['TS']) ## This chart needs to be shown in the repor
 
 start_time, end_time, time_elapsed = tsreport(ip_pred_2, Y["TS"], target_dict2)
 
-Loading, Unloading, Loaded, Unloaded, Dumping = events(ip_pred_2, Y["TS"])
+Lding, Uding, Lded, Ulded, Ding = events(ip_pred_2, Y["TS"])
 
 
 
