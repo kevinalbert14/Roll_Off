@@ -185,6 +185,38 @@ def evelogs(Uding_log, Lding_log, Ding_log):
     return events_log
 
 
+def samp_pred(events_log, ip_pred_2, Y):
+    count = 0
+    ses = []
+    speed_log = []
+    for i in events_log:
+        for j,k,sp in zip(ip_pred_2,Y['TS'],Y['Speed']):
+            if(i == k):
+                ses.append(j)
+                speed_log.append(sp)
+                break
+    
+    # predict each event using the basic prediction
+    ss = ''
+    for i,j,sp in zip(ses,events_log,speed_log):
+        if(ss == ''):
+            ss =i
+            st=j
+            sp1=sp
+        else:
+            if(sp1>10 or sp>10):
+                print('Start time is',st,'state is',ss,' and the speed is',sp1,'End time is',j,'State is',i,'Speed of truck is',sp,'No event as truck is moving')
+            elif(ss == 'Loaded' and i == 'Unloaded'):
+                print('Start time is',st,'state is',ss,' and the speed is',sp1,'End time is',j,'State is',i,'Speed of truck is',sp,'The activity performed in the sample is predicted to be UNLOADING')
+            elif(ss == 'Unloaded' and i == 'Loaded'):
+                print('Start time is',st,'state is',ss,' and the speed is',sp1,'End time is',j,'State is',i,'Speed of truck is',sp,'The activity performed in the sample is predicted to be LOADING')
+            elif(ss == 'Loaded' and i == 'Loaded'):
+                print('Start time is',st,'state is',ss,' and the speed is',sp1,'End time is',j,'State is',i,'Speed of truck is',sp,'The activity performed in the sample is predicted to be DUMPING')
+            else:
+                print('Start time is',st,'state is',ss,' and the speed is',sp1,'End time is',j,'State is',i,'Speed of truck is',sp,'The activity performed in the sample is predicted to be  : Needs definition')
+            ss=''
+
+
 
 
 
