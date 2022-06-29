@@ -15,7 +15,7 @@ from accuracy_graph import accuracy_graph, rep_1
 from conf_matrix import conf_matrix
 from classifier_state import classifier_state
 from tsreport import events, tsreport
-from continuous_data import continuous
+from continuous_data import continuous, evelogs
 
 
 target_dict = dict([("Dump", 0),("Loaded",1),("Unloaded",2),("Inter",3)])
@@ -76,6 +76,9 @@ start_time, end_time, time_elapsed = tsreport(ip_pred_2, Y["TS"], target_dict2)
 Lding, Uding, Lded, Ulded, Ding = events(ip_pred_2, Y["TS"])
 
 Uding_log, Lding_log, Ding_log = continuous(ip_pred_2,Y['TS'],Lding, Uding, Ding)
+
+events_log = evelogs(Uding_log, Lding_log, Ding_log)
+
 
 
 

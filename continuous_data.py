@@ -106,7 +106,88 @@ def continuous(pred, tsps, Lding, Uding, Ding):
             time_elapsed =  datetime2 - datetime1
             now_1=0
 
-    return Uding_log, Lding_log, Ding_log
+    return Uding_log, Lding_log, Ding_log, events_log
+
+
+def evelogs(Uding_log, Lding_log, Ding_log):
+    # only applicable for continuous datasets
+    flag = 0
+    # combining individual logs into one deduped list
+    events_log = []
+    count = 0
+    aler = 0
+    for i in Uding_log:
+        if(count%2==0):
+            if(i in events_log):
+                indices = [Z for Z, Y in enumerate(events_log) if Y == i]
+                for this in indices:
+                    if(this%2==0):
+                        aler = 1
+                        break
+                if(aler == 0):
+                    events_log.append(i)
+            else:
+                events_log.append(i)
+        else:
+            if(aler==0):
+                events_log.append(i)
+            else:
+                aler=0
+        count=count+1
+        #print(events_log)
+        #print(i)
+
+    count = 0
+    aler = 0
+    for i in Lding_log:
+        if(count%2==0):
+            if(i in events_log):
+                indices = [Z for Z, Y in enumerate(events_log) if Y == i]
+                for this in indices:
+                    if(this%2==0):
+                        aler = 1
+                        break
+                if(aler == 0):
+                    events_log.append(i)
+            else:
+                events_log.append(i)
+        else:
+            if(aler==0):
+                events_log.append(i)
+            else:
+                aler=0
+        count=count+1
+        #print(events_log)
+        #print(i)
+
+    count = 0
+    aler = 0
+    for i in Ding_log:
+        if(count%2==0):
+            if(i in events_log):
+                indices = [Z for Z, Y in enumerate(events_log) if Y == i]
+                for this in indices:
+                    if(this%2==0):
+                        aler = 1
+                        break
+                if(aler == 0):
+                    events_log.append(i)
+            else:
+                events_log.append(i)
+        else:
+            if(aler==0):
+                events_log.append(i)
+            else:
+                aler=0
+        count=count+1
+        #print(events_log)
+        #print(i)
+    return events_log
+
+
+
+
+
 
 
 
