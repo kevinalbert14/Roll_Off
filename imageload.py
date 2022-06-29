@@ -1,8 +1,10 @@
 import os
+from turtle import speed
 from tensorflow.keras.preprocessing.image import load_img, img_to_array, smart_resize
 import numpy as np
 import pathlib
 from pathlib import Path
+import json
 
 
 def image_load():
@@ -35,20 +37,26 @@ def test_loader(test_file):
     ip_im_name = []
 
     for img in q_1.iterdir():
-        ip_im_name_now = img
-        img = load_img(img, grayscale = True)
-        img_array = img_to_array(img)/255
-        size = (180,320)
-        img_array_resized = smart_resize(img_array,size)
-        ip_images.append(img_array_resized)
-        ip_im_name.append(ip_im_name_now)
-    return np.array(ip_images), ip_im_name
+        if(str(img).find('.jpg')>0):
+            ip_im_name_now = img
+            img = load_img(img, grayscale = True)
+            img_array = img_to_array(img)/255
+            size = (180,320)
+            img_array_resized = smart_resize(img_array,size)
+            ip_images.append(img_array_resized)
+            ip_im_name.append(ip_im_name_now)
+        else:
+            with open(img, 'r') as f:
+                speed_data = json.load(f)
+        return np.array(ip_images), ip_im_name, speed_data
 
 
-def timestamps(ip_pred, ip_im_name):
+def timestamps(ip_pred, ip_im_name, speed_data ):
     ip_pred_norm = []
     ip_out = []
     ts = []
+    speed = []
+    n1 = 0
 
     for ip_y in ip_pred:
         ip_pred_norm.append(np.argmax(ip_y))
@@ -56,10 +64,15 @@ def timestamps(ip_pred, ip_im_name):
         nw = str(i)
         ts.append(str(i)[nw.find('T')-8:nw.find('T')+7])
         nw = str(i)
-    for y,name,ts in zip(ip_pred_norm,ip_im_name,ts):
-        now = y,str(name),ts
+    for i in ts:
+        for j in speed_data:
+            if(i==str(j)[str(j).find('Filename')+12:str(j).find('.jpg')-3]):
+                speed.append(j['Speed'])
+                break    
+    for y,name,ts,s in zip(ip_pred_norm,ip_im_name,ts,speed):
+        now = y,ts,str(name),s
         ip_out.append(now)
-        dt = {'names':['Pred', 'Name', 'TS'],'formats':[int, object,object]}
+        dt = {'names':['Pred', 'TS', 'Name' ,'Speed'],'formats':[int, object, object,float]}
         Y = np.array(ip_out, dtype=dt)
         Y = np.sort(Y, order='TS')
     return Y

@@ -52,11 +52,11 @@ print(conf_matrix(Y_test, test_prend))
 
 testing_file = input("Enter the destiation of the testing file")
 
-test_img, ip_im_name = test_loader(testing_file)
+test_img, ip_im_name, speed_data = test_loader(testing_file)
 
 ip_pred = model.predict(test_img)
 
-Y = timestamps(ip_pred, ip_im_name)
+Y = timestamps(ip_pred, ip_im_name, speed_data)
 
 ### This part of the code needs to be reviewed
 ip_pred_2 = []
