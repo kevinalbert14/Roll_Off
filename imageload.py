@@ -1,5 +1,4 @@
 import os
-from turtle import speed
 from tensorflow.keras.preprocessing.image import load_img, img_to_array, smart_resize
 import numpy as np
 import pathlib

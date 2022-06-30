@@ -1,5 +1,4 @@
 import datetime
-from tkinter import Y
 
 def tsreport(pred, tsp, target_dict2):
     Start_state = []
