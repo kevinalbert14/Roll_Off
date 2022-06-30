@@ -36,7 +36,7 @@ model.compile(optimizer='adam', loss=tf.keras.losses.SparseCategoricalCrossentro
               metrics=['accuracy'])
 
 
-history = model.fit(X_train, Y_train, epochs=8, 
+history = model.fit(X_train, Y_train, epochs=12,
                     validation_data=(X_val, Y_val))
 
 test_loss, test_acc = model.evaluate(X_test,  Y_test, verbose=2)
