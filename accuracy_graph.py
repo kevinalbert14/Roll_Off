@@ -18,3 +18,42 @@ def rep_1(prediction_state, tsp):
     plt.xlabel('Time', fontsize = 14)
     plt.ylabel('State', fontsize = 14)
     return plt.show()
+
+
+def individual_events(events_log, Y, ip, ip_pred_2, event_predictions):
+    ss = ''
+    state = []
+    time_s = []
+    count = -1
+    for el in events_log:
+        if(ss == ''):
+            ss = el
+            state = []
+            time_s = []
+            count = count +1
+            plt.new_figure_manager(1)
+        else:
+            for i,j in zip(Y['TS'],ip_pred_2):
+                if(i>=ss and i<=el):
+                    state.append(j)
+                    time_s.append(i)
+                if(i>el):
+                    break
+            plt.clf()
+            print(event_predictions[count])
+            plt.plot(time_s,state)
+            plt.title('Time Vs RO State')
+            plt.xlabel('Time',fontsize=14)
+            plt.ylabel('State',fontsize=14)
+            plt.show()
+            ss = ''
+            print(event_predictions)
+
+
+
+
+
+
+
+
+

@@ -11,7 +11,7 @@ import numpy as np
 from imageload import image_load, test_loader, timestamps
 from splitting import splitting_train_test
 from mod import mod
-from accuracy_graph import accuracy_graph, rep_1
+from accuracy_graph import accuracy_graph, rep_1, individual_events
 from conf_matrix import conf_matrix
 from classifier_state import classifier_state
 from tsreport import events, tsreport
@@ -79,7 +79,9 @@ Uding_log, Lding_log, Ding_log = continuous(ip_pred_2,Y['TS'],Lding, Uding, Ding
 
 events_log = evelogs(Uding_log, Lding_log, Ding_log)
 
-samp_pred(events_log, ip_pred_2, Y)
+event_predictions = samp_pred(events_log, ip_pred_2, Y)
+
+individual_events (events_log, Y, ip_pred_2, event_predictions)
 
 
 

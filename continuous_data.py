@@ -189,33 +189,45 @@ def samp_pred(events_log, ip_pred_2, Y):
     count = 0
     ses = []
     speed_log = []
+    event_predictions = []
+    now = ''
     for i in events_log:
         for j,k,sp in zip(ip_pred_2,Y['TS'],Y['Speed']):
-            if(i == k):
+            if(i==k and j in ('Loaded','Unloaded')):
                 ses.append(j)
                 speed_log.append(sp)
                 break
+    print(events_log)
     
     # predict each event using the basic prediction
     ss = ''
+    print(ses)
     for i,j,sp in zip(ses,events_log,speed_log):
         if(ss == ''):
             ss =i
             st=j
             sp1=sp
         else:
+
             if(sp1>10 or sp>10):
                 print('Start time is',st,'state is',ss,' and the speed is',sp1,'End time is',j,'State is',i,'Speed of truck is',sp,'No event as truck is moving')
+                event_predictions.append('Truck is Moving')
             elif(ss == 'Loaded' and i == 'Unloaded'):
                 print('Start time is',st,'state is',ss,' and the speed is',sp1,'End time is',j,'State is',i,'Speed of truck is',sp,'The activity performed in the sample is predicted to be UNLOADING')
+                event_predictions.append('Unloading')
             elif(ss == 'Unloaded' and i == 'Loaded'):
                 print('Start time is',st,'state is',ss,' and the speed is',sp1,'End time is',j,'State is',i,'Speed of truck is',sp,'The activity performed in the sample is predicted to be LOADING')
+                event_predictions.append('Loading')
             elif(ss == 'Loaded' and i == 'Loaded'):
                 print('Start time is',st,'state is',ss,' and the speed is',sp1,'End time is',j,'State is',i,'Speed of truck is',sp,'The activity performed in the sample is predicted to be DUMPING')
+                event_predictions.append('Dumping')
             else:
-                print('Start time is',st,'state is',ss,' and the speed is',sp1,'End time is',j,'State is',i,'Speed of truck is',sp,'The activity performed in the sample is predicted to be  : Needs definition')
+                print('Start time is',st,'state is',ss,' and the speed is',sp1,'End time is',j,'State is',i,'Speed of truck is',sp,'No productive action was identified here')
+                event_predictions.append('No productive Event')
             ss=''
+            now = ''
 
+    return event_predictions
 
 
 
