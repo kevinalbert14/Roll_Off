@@ -8,7 +8,7 @@ import json
 
 def image_load():
 
-    data_dir = "C:/Users/keevv/Desktop/Project/waste"
+    data_dir = "C:/Users/keevv/Desktop/Roll_Off/waste"
     p = Path().cwd()
     q = p/'waste'
     images = []
