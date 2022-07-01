@@ -10,7 +10,8 @@ def tsreport(pred, tsp, target_dict2):
             need_now = i
             need_now2 = j
             break
-    strt = ("Start state is", target_dict2[i], "and the timestamp is", j)
+    print(target_dict2[i])
+    print("Start State is '", target_dict2[i],"' and the time stamp is ",j)
     Start_state = target_dict2[i]
     #print(int(str(j[6:])))
     start_time = int(j[j.find('T')+1:j.find('T')+3]),int(j[j.find('T')+3:j.find('T')+5]),int(j[j.find('T')+5:j.find('T')+7])
@@ -26,15 +27,18 @@ def tsreport(pred, tsp, target_dict2):
             need_now2 = j
         if(i == 0):
             Dump_flag = 1
-    end = ("End State is '", target_dict2[i],"' and the time stamp is ",j)
+    print("End State is '", target_dict2[i],"' and the time stamp is ",j)
+    #print(int(str(j[6:])))
     End_state = target_dict2[i]
     End_time = int(j[j.find('T')+1:j.find('T')+3]),int(j[j.find('T')+3:j.find('T')+5]),int(j[j.find('T')+5:j.find('T')+7])
     EndTime= datetime.time(int(j[j.find('T')+1:j.find('T')+3]),int(j[j.find('T')+3:j.find('T')+5]),int(j[j.find('T')+5:j.find('T')+7]))
     datetime2 = datetime.datetime.combine(date, EndTime)
+    print(datetime2)
 
     time_elapsed = datetime2 - datetime1
-    elspd = ('Time enlapsed between Start and End state',time_elapsed)
-    return strt, end, elspd
+
+    print('Time enlapsed between Start and End state',time_elapsed)
+    return Start_state, End_state , time_elapsed
 
 def events(pred, tsp):
     a = 0

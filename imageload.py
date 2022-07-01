@@ -47,7 +47,7 @@ def test_loader(test_file):
         else:
             with open(img, 'r') as f:
                 speed_data = json.load(f)
-        return np.array(ip_images), ip_im_name, speed_data
+    return np.array(ip_images), ip_im_name, speed_data
 
 
 def timestamps(ip_pred, ip_im_name, speed_data ):

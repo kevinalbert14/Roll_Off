@@ -36,7 +36,7 @@ model.compile(optimizer='adam', loss=tf.keras.losses.SparseCategoricalCrossentro
               metrics=['accuracy'])
 
 
-history = model.fit(X_train, Y_train, epochs=12,
+history = model.fit(X_train, Y_train, epochs=8,
                     validation_data=(X_val, Y_val))
 
 test_loss, test_acc = model.evaluate(X_test,  Y_test, verbose=2)
@@ -58,20 +58,25 @@ ip_pred = model.predict(test_img)
 
 Y = timestamps(ip_pred, ip_im_name, speed_data)
 
+
 ### This part of the code needs to be reviewed
-ip_pred_2 = []
-target_dict2 = dict([("Dump", 0),("Loaded",1),("Unloaded",2),("Inter",3)])
+#Converting the predicted Numbers into their corresponding states "Loaded" , "Unloading" , "Inter" and "Dump"
+ip_pred_2 = [] # use the target_dict to convert the string labels to an array of integers\n",
+target_dict2 = dict([(0,'Dump'),(1,'Loaded'),(2,'Unloaded'),(3,'Inter')])
 for i in Y['Pred']:
       need = target_dict2[i]
       ip_pred_2.append(need)
 
 
+
 ip_pred_2, number, target_dict2 = classifier_state(ip_pred_2, Y)
+
+print( target_dict2)
 
 
 report_1 = rep_1(ip_pred_2,Y['TS']) ## This chart needs to be shown in the report.
 
-start_time, end_time, time_elapsed = tsreport(ip_pred_2, Y["TS"], target_dict2)
+start_time, end_time, time_elapsed = tsreport(Y["Pred"], Y["TS"], target_dict2)
 
 Lding, Uding, Lded, Ulded, Ding = events(ip_pred_2, Y["TS"])
 
