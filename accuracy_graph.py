@@ -20,7 +20,7 @@ def rep_1(prediction_state, tsp):
     return plt.show()
 
 
-def individual_events(events_log, Y, ip, ip_pred_2, event_predictions):
+def individual_events(events_log, Y, ip_pred_2, event_predictions):
     ss = ''
     state = []
     time_s = []

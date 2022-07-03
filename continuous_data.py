@@ -13,7 +13,7 @@ def continuous(pred, tsps, Lding, Uding, Ding):
     Lding_log = []
     Uding_log = []
     Ding_log = []
-    events_log = []
+    
     # identify individual events from loading
     for i in Lding:
         if(now_1 == 0):
@@ -106,7 +106,7 @@ def continuous(pred, tsps, Lding, Uding, Ding):
             time_elapsed =  datetime2 - datetime1
             now_1=0
 
-    return Uding_log, Lding_log, Ding_log, events_log
+    return Uding_log, Lding_log, Ding_log
 
 
 def evelogs(Uding_log, Lding_log, Ding_log):
