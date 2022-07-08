@@ -11,7 +11,7 @@ import numpy as np
 from imageload import image_load, test_loader, timestamps
 from splitting import splitting_train_test
 from mod import mod
-from accuracy_graph import accuracy_graph, rep_1, individual_events, graphreport
+from accuracy_graph import accuracy_graph, rep_1, individual_events, graphreport, finalreport_1
 from conf_matrix import conf_matrix
 from classifier_state import classifier_state
 from tsreport import events, tsreport
@@ -119,6 +119,8 @@ else:
       single_events(Lding, Uding, Lded, Ulded, Ding)
 
       graphreport(Y['TS'],ip_pred_2, event_predictions, events_log, ip_pred_2, Y)
+
+      finalreport_1(Y['TS'],ip_pred_2, event_predictions, events_log, ip_pred_2, Y)
 
 
 
