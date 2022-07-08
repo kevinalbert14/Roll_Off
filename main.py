@@ -11,7 +11,7 @@ import numpy as np
 from imageload import image_load, test_loader, timestamps
 from splitting import splitting_train_test
 from mod import mod
-from accuracy_graph import accuracy_graph, rep_1, individual_events
+from accuracy_graph import accuracy_graph, rep_1, individual_events, graphreport
 from conf_matrix import conf_matrix
 from classifier_state import classifier_state
 from tsreport import events, tsreport
@@ -22,7 +22,9 @@ from keras.models import load_model
 def choice():
     sel = 0
     while sel not in [1,2]:
-        sel = int(input("Press 1 to train the model and 2 to run the prediction"))
+        sel = int(input("Press 1 to train the model and 2 to run the prediction:  "))
+        if sel != 2:
+            print("The model is getting trained")
     return sel
 
 selection = choice()
@@ -65,13 +67,16 @@ while selection == 1:
 
             model.save('model_weight_cnn_86.h5')
 
-            print(" Model has be trained and saved with the new data and the ")
+            print(" Model has be trained and saved ")
 
             selection = 2
 
 else:
+      
 
       model = load_model('model_weight_cnn_86.h5')
+
+      print("The weigths of the model have been restored from the saved file")
 
       testing_file = input("Enter the destiation of the testing file")
 
@@ -112,6 +117,8 @@ else:
       individual_events (events_log, Y, ip_pred_2, event_predictions)
 
       single_events(Lding, Uding, Lded, Ulded, Ding)
+
+      graphreport(Y['TS'],ip_pred_2, event_predictions, events_log, ip_pred_2, Y)
 
 
 
