@@ -84,8 +84,7 @@ def graphreport(TimeStamp,Predicted_state, event_predictions, events_log, ip_pre
     j = -1
     fig = go.Figure()
     # Create and style traces
-    fig.add_trace(go.Scatter(x=month, y=high_2000, name='states',
-                         line=dict(color='black', width=4)))                 
+    fig.add_trace(go.Scatter(x=month, y=high_2000, name='states',line=dict(color='black', width=4)))                 
 
     fig.update_layout(title='State diagram of the continuous dataset With Filtered Predicted Events after post-processing',
                    xaxis_title='Timestamp',
@@ -148,6 +147,7 @@ def graphreport(TimeStamp,Predicted_state, event_predictions, events_log, ip_pre
                    yaxis_title='States')
 
     fig.show()
+    fig.write_html("all.html")
     print("Summary ||  ",Summary)
 
     count = 0
@@ -163,21 +163,118 @@ def graphreport(TimeStamp,Predicted_state, event_predictions, events_log, ip_pre
                 break
 
     ss = ''
+    #print(ses)
+    file = open("all.html","w")
+
+    fig.write_html(file)
+    file.write("""<h2> Summary </h2>""")
+    file.write("<h4>"+Summary+"</h4>")
+
+    now_text = """
+    <style>
+    table, th, td {
+        border:1px solid black;
+    }
+    </style>
+
+    <table style="width:100%">
+        <tr>
+            <td>Start Time Stamp</td>
+            <td>Start State</td>
+            <td>Start Speed</td>
+            <td>End Time Stamp</td>
+            <td>End State</td>
+            <td>End Speed</td>
+            <td>Predicted Activity</td>
+        </tr>
+    """
+    file.write(now_text)
     for i,j,sp in zip(ses,events_log,speed_log):
+        flag_now = 0
         if(ss == ''):
             ss =i
             st=j
             sp1=sp
         else:
             if(sp1>10 or sp>10):
-                print('Start time is',st,'state is',ss,' and the speed is',sp1,'End time is',j,'State is',i,'Speed of truck is',sp,'No event as truck is moving')
+            #now_text = ('Start time is '+str(st)+' state is '+str(ss)+' and the speed is '+str(sp1)+' End time is '+str(j)+' State is '+str(i)+' Speed of truck is '+str(sp)+' No event as truck is moving ')
+                now_text = """  <tr>
+                <td>"""+st+"""</td>
+                <td>"""+ss+"""</td>
+                <td>"""+str(sp1)+"""</td>
+                <td>"""+j+"""</td>
+                <td>"""+i+"""</td>
+                <td>"""+str(sp)+"""</td>
+                <td>No event as truck is moving </td>
+                </tr>"""
+                file.write(now_text)
                 event_predictions.append('Truck is Moving')
             elif(ss == 'Loaded' and i == 'Unloaded'):
-                print('Start time is',st,'state is',ss,' and the speed is',sp1,'End time is',j,'State is',i,'Speed of truck is',sp,'The activity performed in the sample is predicted to be UNLOADING')
-                event_predictions.append('Unloading')
+                flag_now = 0
+                for j_now,k_now,sp_now in zip(ip_pred_2,Y['TS'],Y['Speed']):
+                    if(k_now>=st and k_now <=j):
+                        if(j_now=='Unloading'):
+                            flag_now = 1
+                            break
+                if(flag_now==1):
+                    #now_text=('Start time is'+str(st)+'state is'+str(ss)+' and the speed is'+str(sp1)+'End time is'+str(j)+'State is'+str(i)+'Speed of truck is'+str(sp)+'The activity performed in the sample is predicted to be UNLOADING')
+                    now_text = """  <tr>
+                    <td>"""+st+"""</td>
+                    <td>"""+ss+"""</td>
+                    <td>"""+str(sp1)+"""</td>
+                    <td>"""+j+"""</td>
+                    <td>"""+i+"""</td>
+                    <td>"""+str(sp)+"""</td>
+                    <td> Unloading </td>
+                    </tr>"""
+                    file.write(now_text)
+                    event_predictions.append('Unloading')
+                else:
+                    #now_text=str('Start time is'+str(st)+'state is'+str(ss)+' and the speed is'+str(sp1)+'End time is'+str(j)+'State is'+str(i)+'Speed of truck is'+str(sp)+' No productive Event')
+                    now_text = """  <tr>
+                    <td>"""+st+"""</td>
+                    <td>"""+ss+"""</td>
+                    <td>"""+str(sp1)+"""</td>
+                    <td>"""+j+"""</td>
+                    <td>"""+i+"""</td>
+                    <td>"""+str(sp)+"""</td>
+                    <td> No Productive Event </td>
+                    </tr>"""
+                    file.write(now_text)
+                    event_predictions.append('No productive Event')
             elif(ss == 'Unloaded' and i == 'Loaded'):
-                print('Start time is',st,'state is',ss,' and the speed is',sp1,'End time is',j,'State is',i,'Speed of truck is',sp,'The activity performed in the sample is predicted to be LOADING')
-                event_predictions.append('Loading')
+                flag_now = 0
+                for j_now,k_now,sp_now in zip(ip_pred_2,Y['TS'],Y['Speed']):
+                    if(k_now>=st and k_now <=j):
+                        if(j_now=='Loading'):
+                            flag_now = 1
+                            break
+                if(flag_now==1):
+                    #now_text = str('Start time is'+str(st)+'state is'+str(ss)+' and the speed is'+str(sp1)+'End time is'+str(j)+'State is'+str(i)+'Speed of truck is'+str(sp)+'The activity performed in the sample is predicted to be LOADING')
+                    now_text = """  <tr>
+                    <td>"""+st+"""</td>
+                    <td>"""+ss+"""</td>
+                    <td>"""+str(sp1)+"""</td>
+                    <td>"""+j+"""</td>
+                    <td>"""+i+"""</td>
+                    <td>"""+str(sp)+"""</td>
+                    <td> Loading </td>
+                    </tr>"""
+                    file.write(now_text)
+                    event_predictions.append('Loading')
+                else:
+                    #now_text = str('Start time is'+str(st)+'state is'+str(ss)+' and the speed is'+str(sp1)+'End time is'+str(j)+'State is'+str(i)+'Speed of truck is'+str(sp)+' No productive Event')
+                    now_text = """  <tr>
+                    <td>"""+st+"""</td>
+                    <td>"""+ss+"""</td>
+                    <td>"""+str(sp1)+"""</td>
+                    <td>"""+j+"""</td>
+                    <td>"""+i+"""</td>
+                    <td>"""+str(sp)+"""</td>
+                    <td> No Productive Event </td>
+                    </tr>"""
+                    file.write(now_text)
+                    event_predictions.append('No productive Event')
             elif(ss == 'Loaded' and i == 'Loaded'):
                 flag_now = 0
                 for j_now,k_now,sp_now in zip(ip_pred_2,Y['TS'],Y['Speed']):
@@ -187,15 +284,40 @@ def graphreport(TimeStamp,Predicted_state, event_predictions, events_log, ip_pre
                             break
                 if(flag_now==1):
                     event_predictions.append('Dumping')
-                    print('Start time is',st,'state is',ss,' and the speed is',sp1,'End time is',j,'State is',i,'Speed of truck is',sp,'The activity performed in the sample is predicted to be DUMPING')
+                    #now_text = ('Start time is'+str(st)+'state is'+str(ss)+' and the speed is'+str(sp1)+'End time is'+str(j)+'State is'+str(i)+'Speed of truck is'+str(sp)+'The activity performed in the sample is predicted to be DUMPING')
+                    now_text = """  <tr>
+                    <td>"""+st+"""</td>
+                    <td>"""+ss+"""</td>
+                    <td>"""+str(sp1)+"""</td>
+                    <td>"""+j+"""</td>
+                    <td>"""+i+"""</td>
+                    <td>"""+str(sp)+"""</td>
+                    <td> Dumping </td>
+                    </tr>"""
+                    file.write(now_text)
                 else:
                     event_predictions.append('No productive Event')
-
             else:
+                #file.write('Start time is'+str(st)+'state is'+str(ss)+' and the speed is'+str(sp1)+'End time is'+str(j)+'State is'+str(i)+'Speed of truck is'+str(sp)+'No productive action was identified here')
+                now_text = """  <tr>
+                <td>"""+st+"""</td>
+                <td>"""+ss+"""</td>
+                <td>"""+str(sp1)+"""</td>
+                <td>"""+j+"""</td>
+                <td>"""+i+"""</td>
+                <td>"""+str(sp)+"""</td>
+                <td> No Productive Event </td>
+                </tr>"""
+                file.write(now_text)
                 event_predictions.append('No productive Event')
-
             ss=''
             now = ''
+
+    file.write("</table>")
+    file.close()
+                
+                
+
     
 
 def finalreport_1(TimeStamp,Predicted_state, event_predictions, events_log, ip_pred_2, Y):
@@ -285,7 +407,7 @@ def finalreport_1(TimeStamp,Predicted_state, event_predictions, events_log, ip_p
                    yaxis_title='States')
 
     fig.show()
-
+    fig.write_html("valid.html")
     print("Summary || ",Summary)
 
     # applicable for continuous datasets
@@ -309,21 +431,117 @@ def finalreport_1(TimeStamp,Predicted_state, event_predictions, events_log, ip_p
     # predict each event using the basic prediction flow
     ss = ''
     #print(ses)
+    file = open("valid.html","w")
+
+    fig.write_html(file)
+    file.write("""<h2> Summary </h2>""")
+    file.write("<h4>"+Summary+"</h4>")
+
+    now_text = """
+    <style>
+    table, th, td {
+        border:1px solid black;
+    }
+    </style>
+
+    <table style="width:100%">
+        <tr>
+            <td>Start Time Stamp</td>
+            <td>Start State</td>
+            <td>Start Speed</td>
+            <td>End Time Stamp</td>
+            <td>End State</td>
+            <td>End Speed</td>
+            <td>Predicted Activity</td>
+        </tr>
+    """
+    file.write(now_text)
     for i,j,sp in zip(ses,events_log,speed_log):
+        flag_now = 0
         if(ss == ''):
             ss =i
             st=j
             sp1=sp
         else:
             if(sp1>10 or sp>10):
-            #print('Start time is',st,'state is',ss,' and the speed is',sp1,'End time is',j,'State is',i,'Speed of truck is',sp,'No event as truck is moving')
+            #now_text = ('Start time is '+str(st)+' state is '+str(ss)+' and the speed is '+str(sp1)+' End time is '+str(j)+' State is '+str(i)+' Speed of truck is '+str(sp)+' No event as truck is moving ')
+                now_text = """  <tr>
+                <td>"""+st+"""</td>
+                <td>"""+ss+"""</td>
+                <td>"""+str(sp1)+"""</td>
+                <td>"""+j+"""</td>
+                <td>"""+i+"""</td>
+                <td>"""+str(sp)+"""</td>
+                <td>No event as truck is moving </td>
+                </tr>"""
+                #file.write(now_text)
                 event_predictions.append('Truck is Moving')
             elif(ss == 'Loaded' and i == 'Unloaded'):
-                print('Start time is',st,'state is',ss,' and the speed is',sp1,'End time is',j,'State is',i,'Speed of truck is',sp,'The activity performed in the sample is predicted to be UNLOADING')
-                event_predictions.append('Unloading')
+                flag_now = 0
+                for j_now,k_now,sp_now in zip(ip_pred_2,Y['TS'],Y['Speed']):
+                    if(k_now>=st and k_now <=j):
+                        if(j_now=='Unloading'):
+                            flag_now = 1
+                            break
+                if(flag_now==1):
+                    #now_text=('Start time is'+str(st)+'state is'+str(ss)+' and the speed is'+str(sp1)+'End time is'+str(j)+'State is'+str(i)+'Speed of truck is'+str(sp)+'The activity performed in the sample is predicted to be UNLOADING')
+                    now_text = """  <tr>
+                    <td>"""+st+"""</td>
+                    <td>"""+ss+"""</td>
+                    <td>"""+str(sp1)+"""</td>
+                    <td>"""+j+"""</td>
+                    <td>"""+i+"""</td>
+                    <td>"""+str(sp)+"""</td>
+                    <td> Unloading </td>
+                    </tr>"""
+                    file.write(now_text)
+                    event_predictions.append('Unloading')
+                else:
+                    #now_text=str('Start time is'+str(st)+'state is'+str(ss)+' and the speed is'+str(sp1)+'End time is'+str(j)+'State is'+str(i)+'Speed of truck is'+str(sp)+' No productive Event')
+                    now_text = """  <tr>
+                    <td>"""+st+"""</td>
+                    <td>"""+ss+"""</td>
+                    <td>"""+str(sp1)+"""</td>
+                    <td>"""+j+"""</td>
+                    <td>"""+i+"""</td>
+                    <td>"""+str(sp)+"""</td>
+                    <td> No Productive Event </td>
+                    </tr>"""
+                    #file.write(now_text)
+                    event_predictions.append('No productive Event')
             elif(ss == 'Unloaded' and i == 'Loaded'):
-                print('Start time is',st,'state is',ss,' and the speed is',sp1,'End time is',j,'State is',i,'Speed of truck is',sp,'The activity performed in the sample is predicted to be LOADING')
-                event_predictions.append('Loading')
+                flag_now = 0
+                for j_now,k_now,sp_now in zip(ip_pred_2,Y['TS'],Y['Speed']):
+                    if(k_now>=st and k_now <=j):
+                        if(j_now=='Loading'):
+                            flag_now = 1
+                            break
+                if(flag_now==1):
+                    #now_text = str('Start time is'+str(st)+'state is'+str(ss)+' and the speed is'+str(sp1)+'End time is'+str(j)+'State is'+str(i)+'Speed of truck is'+str(sp)+'The activity performed in the sample is predicted to be LOADING')
+                    now_text = """  <tr>
+                    <td>"""+st+"""</td>
+                    <td>"""+ss+"""</td>
+                    <td>"""+str(sp1)+"""</td>
+                    <td>"""+j+"""</td>
+                    <td>"""+i+"""</td>
+                    <td>"""+str(sp)+"""</td>
+                    <td> Loading </td>
+                    </tr>"""
+                    file.write(now_text)
+                    event_predictions.append('Loading')
+                else:
+                    #now_text = str('Start time is'+str(st)+'state is'+str(ss)+' and the speed is'+str(sp1)+'End time is'+str(j)+'State is'+str(i)+'Speed of truck is'+str(sp)+' No productive Event')
+                    now_text = """  <tr>
+                    <td>"""+st+"""</td>
+                    <td>"""+ss+"""</td>
+                    <td>"""+str(sp1)+"""</td>
+                    <td>"""+j+"""</td>
+                    <td>"""+i+"""</td>
+                    <td>"""+str(sp)+"""</td>
+                    <td> No Productive Event </td>
+                    </tr>"""
+                    #file.write(now_text)
+                    event_predictions.append('No productive Event')
             elif(ss == 'Loaded' and i == 'Loaded'):
                 flag_now = 0
                 for j_now,k_now,sp_now in zip(ip_pred_2,Y['TS'],Y['Speed']):
@@ -333,12 +551,35 @@ def finalreport_1(TimeStamp,Predicted_state, event_predictions, events_log, ip_p
                             break
                 if(flag_now==1):
                     event_predictions.append('Dumping')
-                    print('Start time is',st,'state is',ss,' and the speed is',sp1,'End time is',j,'State is',i,'Speed of truck is',sp,'The activity performed in the sample is predicted to be DUMPING')
+                    #now_text = ('Start time is'+str(st)+'state is'+str(ss)+' and the speed is'+str(sp1)+'End time is'+str(j)+'State is'+str(i)+'Speed of truck is'+str(sp)+'The activity performed in the sample is predicted to be DUMPING')
+                    now_text = """  <tr>
+                    <td>"""+st+"""</td>
+                    <td>"""+ss+"""</td>
+                    <td>"""+str(sp1)+"""</td>
+                    <td>"""+j+"""</td>
+                    <td>"""+i+"""</td>
+                    <td>"""+str(sp)+"""</td>
+                    <td> Dumping </td>
+                    </tr>"""
+                    file.write(now_text)
                 else:
                     event_predictions.append('No productive Event')
             else:
-                #print('Start time is',st,'state is',ss,' and the speed is',sp1,'End time is',j,'State is',i,'Speed of truck is',sp,'No productive action was identified here')
+                #file.write('Start time is'+str(st)+'state is'+str(ss)+' and the speed is'+str(sp1)+'End time is'+str(j)+'State is'+str(i)+'Speed of truck is'+str(sp)+'No productive action was identified here')
+                now_text = """  <tr>
+                <td>"""+st+"""</td>
+                <td>"""+ss+"""</td>
+                <td>"""+str(sp1)+"""</td>
+                <td>"""+j+"""</td>
+                <td>"""+i+"""</td>
+                <td>"""+str(sp)+"""</td>
+                <td> No Productive Event </td>
+                </tr>"""
+                file.write(now_text)
                 event_predictions.append('No productive Event')
             ss=''
             now = ''
+
+    file.write("</table>")
+    file.close()
     
