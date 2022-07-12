@@ -123,7 +123,19 @@ else:
 
       finalreport_1(Y['TS'],ip_pred_2, event_predictions, events_log, ip_pred_2, Y)
 
-      emailer()
+      
+      def option():
+            selection = 0
+            while selection not in [1,2]:
+                  selection = int(input("Press 1 to send the report as email and 2 for ignore: "))
+                  if selection == 1:
+                        sender_address = input("Enter the email address to which the report has to be sent :")
+                        emailer(sender_address)
+                        print("The report has been sent as an email successfully")
+                  elif selection == 2:
+                        print("The process is completed")
+
+      option()
 
 
 

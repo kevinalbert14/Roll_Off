@@ -146,7 +146,7 @@ def graphreport(TimeStamp,Predicted_state, event_predictions, events_log, ip_pre
                    xaxis_title='Timestamp',
                    yaxis_title='States')
 
-    fig.show()
+    #fig.show()
     fig.write_html("all.html")
     print("Summary ||  ",Summary)
 
@@ -406,7 +406,7 @@ def finalreport_1(TimeStamp,Predicted_state, event_predictions, events_log, ip_p
                    xaxis_title='Timestamp',
                    yaxis_title='States')
 
-    fig.show()
+    #fig.show()
     fig.write_html("valid.html")
     print("Summary || ",Summary)
 

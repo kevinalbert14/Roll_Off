@@ -6,11 +6,11 @@ from email import encoders
 import os.path
 
 
-def emailer():
+def emailer(rece):
 
     sender = 'keevviin97@gmail.com'
     password = 'xeqgjplbmqqtpbsm'
-    receiver = 'keevviin92@gmail.com'
+    receiver = rece
     message = 'The message here'
     file_location = 'C:\\Users\\keevv\\Desktop\\Roll_Off\\valid.html'
 

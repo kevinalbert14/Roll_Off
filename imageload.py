@@ -31,7 +31,7 @@ def test_loader(test_file):
 
     data_directory = test_file
     p_1 = Path().cwd()
-    q_1 = p_1/"test"              ## The file has to be in the same folder and the name of the test file has to be named as test
+    q_1 =  p_1/data_directory             ## The file has to be in the same folder and the name of the test file has to be named as test
     ip_images = []
     ip_im_name = []
 
