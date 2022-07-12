@@ -18,6 +18,7 @@ from tsreport import events, tsreport
 from continuous_data import continuous, evelogs, samp_pred
 from single_events import single_events
 from keras.models import load_model
+from emailhandler import emailer
 
 def choice():
     sel = 0
@@ -121,6 +122,8 @@ else:
       graphreport(Y['TS'],ip_pred_2, event_predictions, events_log, ip_pred_2, Y)
 
       finalreport_1(Y['TS'],ip_pred_2, event_predictions, events_log, ip_pred_2, Y)
+
+      emailer()
 
 
 
