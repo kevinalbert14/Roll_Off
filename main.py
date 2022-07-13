@@ -19,6 +19,12 @@ from continuous_data import continuous, evelogs, samp_pred
 from single_events import single_events
 from keras.models import load_model
 from emailhandler import emailer
+import os
+
+def clear():
+      os.system('cls')
+
+clear()
 
 def choice():
     sel = 0
@@ -47,7 +53,7 @@ while selection == 1:
             labels_int = np.array(labels_int)
 
             X_train, Y_train, X_test, Y_test, X_val, Y_val = splitting_train_test(images, labels_int)
-
+            clear()
             model = mod()
             print(model.summary())
             model.compile(optimizer='adam', loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True), metrics=['accuracy'])
@@ -77,9 +83,12 @@ else:
 
       model = load_model('model_weight_cnn_86.h5')
 
+      clear()
+
       print("The weigths of the model have been restored from the saved file")
 
-      testing_file = input("Enter the destiation of the testing file")
+
+      testing_file = input("Enter the name of the folder which needs to be predicted:  ")
 
       test_img, ip_im_name, speed_data = test_loader(testing_file)
 
@@ -103,7 +112,7 @@ else:
       print( target_dict2)
 
 
-      report_1 = rep_1(ip_pred_2,Y['TS']) ## This chart needs to be shown in the report.
+      #report_1 = rep_1(ip_pred_2,Y['TS']) ## This chart needs to be shown in the report.
 
       start_time, end_time, time_elapsed = tsreport(Y["Pred"], Y["TS"], target_dict2)
 
@@ -115,7 +124,7 @@ else:
 
       event_predictions = samp_pred(events_log, ip_pred_2, Y)
 
-      individual_events (events_log, Y, ip_pred_2, event_predictions)
+      #individual_events (events_log, Y, ip_pred_2, event_predictions)
 
       single_events(Lding, Uding, Lded, Ulded, Ding)
 
@@ -135,6 +144,8 @@ else:
                   elif selection == 2:
                         print("The process is completed")
 
+      clear()
+      
       option()
 
 
