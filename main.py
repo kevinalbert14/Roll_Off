@@ -21,30 +21,30 @@ from keras.models import load_model
 from emailhandler import emailer
 import os
 
-def clear():
+def clear():      # This function will create the terminal screen
       os.system('cls')
 
 clear()
 
-def choice():
-    sel = 0
-    while sel not in [1,2]:
-        sel = int(input("Press 1 to train the model and 2 to run the prediction:  "))
-        if sel != 2:
-            print("The model is getting trained")
-    return sel
+def choice():     # This function will allow the user to select the choice between 1 & 2
+    sel = 0       #Initally providing the selection value as 0
+    while sel not in [1,2]:   #Checking if the value is 1 or 2
+        sel = int(input("Press 1 to train the model and 2 to run the prediction:  ")) # Getting the input from the user
+        if sel != 2:    # If the variable sel is not equal to 2 then this code will be executed
+            print("The model is getting trained")     
+    return sel    #The variable sel is being returned
 
-selection = choice()
+selection = choice()    # Have called the function choice to get the user input
 
-while selection == 1:
-
-
-      if selection == 1:
+while selection == 1:   # If the user has provided the input as 1 the this code will be executed if not the else part will be executed
 
 
-            target_dict = dict([("Dump", 0),("Loaded",1),("Unloaded",2),("Inter",3)])
+      if selection == 1: # If the user has provided his choice as 1 then this part of the code will be executed
 
-            images, labels = image_load()
+
+            target_dict = dict([("Dump", 0),("Loaded",1),("Unloaded",2),("Inter",3)]) # We have assigned the var target_dict with dict key value pairs
+
+            images, labels = image_load() # The file which is used for training is loaded using the image_load() function and it will return images and lables in the form of array
 
             labels_int = [] # use the target_dict to convert the string labels to an array of integers
             for i in labels:
@@ -52,49 +52,49 @@ while selection == 1:
                   labels_int.append(n_key)
             labels_int = np.array(labels_int)
 
-            X_train, Y_train, X_test, Y_test, X_val, Y_val = splitting_train_test(images, labels_int)
+            X_train, Y_train, X_test, Y_test, X_val, Y_val = splitting_train_test(images, labels_int) # The training data has been split and the correspondings values are returned.
             clear()
-            model = mod()
-            print(model.summary())
-            model.compile(optimizer='adam', loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True), metrics=['accuracy'])
+            model = mod()     # By calling the mod() funtion the model is being created and returned in the variable model
+            print(model.summary())  # We will be able to see the summary of the model in our console
+            model.compile(optimizer='adam', loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True), metrics=['accuracy']) # We are now modifying the created model using the compile function.
 
 
-            history = model.fit(X_train, Y_train, epochs=8, validation_data=(X_val, Y_val))
+            history = model.fit(X_train, Y_train, epochs=8, validation_data=(X_val, Y_val)) # The model is now being fit providing it with the epoch od 8
 
-            test_loss, test_acc = model.evaluate(X_test,  Y_test, verbose=2)
+            test_loss, test_acc = model.evaluate(X_test,  Y_test, verbose=2) # The perfromance of the model is being evaluvated and test_loss and test_acc are calculated
 
             accuracy = history.history["accuracy"]
-            val_accuracy = history.history["val_accuracy"]
+            val_accuracy = history.history["val_accuracy"]  # Validation accuracy and the test accuracy have been calculated
 
-            accuracy_graph(accuracy, val_accuracy)
+            accuracy_graph(accuracy, val_accuracy)    # Graph is being plotted be on the accuracy recieved
 
-            test_prend = model.predict(X_test)
+            test_prend = model.predict(X_test)  # The test data is being sent and the predictions are being returned in test_pred
 
-            print(conf_matrix(Y_test, test_prend))
+            print(conf_matrix(Y_test, test_prend)) # Confusion matrix is being calculated for the better understanding of how the data has been trained
 
-            model.save('model_weight_cnn_86.h5')
+            model.save('model_weight_cnn_86.h5')      # The trained model is now saved of the later usage
 
             print(" Model has be trained and saved ")
 
-            selection = 2
+            selection = 2     # Selection has been changed into 2 so that the next set of the code will be executed
 
 else:
       
 
-      model = load_model('model_weight_cnn_86.h5')
+      model = load_model('model_weight_cnn_86.h5')    # The saved model is now being loaded again for predecting purpose
 
       clear()
 
       print("The weigths of the model have been restored from the saved file")
 
 
-      testing_file = input("Enter the name of the folder which needs to be predicted:  ")
+      testing_file = input("Enter the name of the folder which needs to be predicted:  ") # Destination path for the testing file is being provided
 
-      test_img, ip_im_name, speed_data = test_loader(testing_file)
+      test_img, ip_im_name, speed_data = test_loader(testing_file)    # The path is being given to test_loader function and it is being intergrated with the speed present in the .json file
 
-      ip_pred = model.predict(test_img)
+      ip_pred = model.predict(test_img)   # The saved model will now predict the new data
 
-      Y = timestamps(ip_pred, ip_im_name, speed_data)
+      Y = timestamps(ip_pred, ip_im_name, speed_data)  # Based on the predictions we will now be creating timestamps
 
 
       ### This part of the code needs to be reviewed
@@ -107,16 +107,16 @@ else:
 
 
 
-      ip_pred_2, number, target_dict2 = classifier_state(ip_pred_2, Y)
+      ip_pred_2, number, target_dict2 = classifier_state(ip_pred_2, Y)  # The states are being classified 
 
-      print( target_dict2)
+      #print( target_dict2)
 
 
       #report_1 = rep_1(ip_pred_2,Y['TS']) ## This chart needs to be shown in the report.
 
-      start_time, end_time, time_elapsed = tsreport(Y["Pred"], Y["TS"], target_dict2)
+      start_time, end_time, time_elapsed = tsreport(Y["Pred"], Y["TS"], target_dict2) # tsreport will now generate start, end time
 
-      Lding, Uding, Lded, Ulded, Ding = events(ip_pred_2, Y["TS"])
+      Lding, Uding, Lded, Ulded, Ding = events(ip_pred_2, Y["TS"])      
 
       Uding_log, Lding_log, Ding_log = continuous(ip_pred_2,Y['TS'],Lding, Uding, Ding)
 
@@ -126,7 +126,7 @@ else:
 
       #individual_events (events_log, Y, ip_pred_2, event_predictions)
 
-      single_events(Lding, Uding, Lded, Ulded, Ding)
+      single_events(Lding, Uding, Lded, Ulded, Ding)  
 
       graphreport(Y['TS'],ip_pred_2, event_predictions, events_log, ip_pred_2, Y)
 
