@@ -6,7 +6,7 @@ External elements such as light and precipitation can influence outcomes because
 
 # Problem identification
 
-The company has a camera fixed to the back of their Roll Off Trucks, using the images from this camera they would like to accurately map the activities performed by the truck and also to reduce the manuek effort by building a scalable solution which would convert the video input into a report summarising all the activities perfromed within the given timeframe.
+The company has a camera fixed to the back of their Roll Off Trucks, using the images from this camera they would like to accurately map the activities performed by the truck and also to reduce the manual effort by building a scalable solution which would convert the video input into a report summarising all the activities performed within the given timeframe.
 
 
 # Business Need for implementing ML in this project
@@ -20,8 +20,8 @@ The dataset has been provided by the company “Metric Masters Ltd”.
 Input/Training Data:
 The data provided is comprised of 3 scenarios.
  	a)Dumping
-	 b)Loaded
-	 c)Unloaded
+	b)Loaded
+	c)Unloaded
 The Resolution of the given images is in between 180*320 to 720*1080.
 Testing Continuous Data:
 The images that were captured by the camera every 3 seconds in 4.5 Hours, which is comprised of around 3000 images.
@@ -53,9 +53,9 @@ The states look like the images which are mentioned below.
 
 # Preprocessing
 
-Every images which we have received was in a different dimension so, As part of pre-processing, we have downsized all images to 320*180 before we start using the images. 
+Every image which we received was in a different dimension, As part of pre-processing, we downsized all images to 320*180 before we start using the images. 
 
-Also, we have converted the images into grayscale, so that the CNN model will able to provide better accuracy regardless of diminising image resolution and quality.
+Also, we have converted the images into grayscale, so that the CNN model will be able to provide better accuracy regardless of diminishing image resolution and quality.
 
 ### Short summary about the list of other steps involved in preprocessing
 
@@ -104,7 +104,7 @@ The graph represents the prediction of events using 3 models.
 * CNN Model has performed better than the other 2 models in predicting events.
 * Out of 15 Events, the CNN model predicted 14 events correctly.
 
-( We will be discussing about how we have been able to evaluvate the event prediction, this will be totally coverd in the post processing steps with the help of the flowchart for better understanding )
+( We will be discussing how we have been able to evaluate the event prediction, this will be covered in the post-processing steps with the help of the flowchart for a better understanding. )
 
 # Post Processing
 ### Input: Sequence of States 
@@ -118,7 +118,7 @@ Get the predicted states of all images, this would contain 4 distinct values Loa
 
 # Results
 
-After perfroming all the actions which was discussed in the section of post processing we will be able to arrive on our desired result.
+After performing all the actions which were discussed in the section on post-processing we will be able to arrive at our desired result.
 A graph will be generated based on the activity of the truck along with the summary table which reports the list of activities.
 This file will be generated in form of .html
 
@@ -132,35 +132,36 @@ This file will be generated in form of .html
 * Execute the main.py file
 
 ### Note:
-* Inorder to execute the file you will need access to the dataset since we have signed the NDA aggrement we are unable to publish the dataset here. In case if you have the dataset, please follow the next process.
-* The dataset will be divided into two folder. 1) waste folder ( which will have all the training images for the model ) 2) Test folder ( The file which needs to be predicted )
-* All these folders have to be in the same folder inorder to successfully run the code.
+*To execute the file you will need access to the dataset since we have signed the NDA agreement we are unable to publish the dataset here. In case you have the dataset, please follow the next process.
+* The dataset will be divided into two folders. 1) waste folder ( which will have all the training images for the model ) 2) Test folder ( The file which needs to be predicted )
+* All these folders have to be in the same folder in order to successfully run the code.
 
 # Troubleshooting instruction
  
- Incase if you find any error while running the main.py file, it should probably because ceratin libraries may not have been installed in the .requirements file.
+In case you find any error while running the main.py file, it should probably be because ceratin libraries may not have been installed in the .requirements file.
  So, kindly install those libraries which u get to see in the error.
  
  # Working instructions:
   
-  After the stetup of the code is completed, Kindly follow the below mentioned steps:
+After the setup of the code is completed, Kindly follow the below-mentioned steps:
   
   * Once the code is executed, it will show a prompt saying "Press 1 to train the model and 2 to run the prediction"
-  * In case if you have new data to train the model, press the option 1 but before doing this, you will have to store all the new data in the waste folder after that you will also have to delete the already existing trained model which is being present in the same directory. 
-  * Once this is done, you will also be seeing a prompt which says that the model is getting trained the model will be trained and will be stored in .h5 formate under the same folder.
-  * In case if you are providing the option 2, the newly saved model will be loaded for prediction, once it succesfully loaded you will be able to see a prompt saying "The weigths of the model have been restored from the saved file"
-  * You will now be asked to provided the name of the folder in which the continuous data is present aka, the data which needs to be predicted.
+  * In case if you have new data to train the model, press option 1 but before doing this, you will have to store all the new data in the waste folder after that you will also have to delete the already existing trained model which is being present in the same directory. 
+  * Once this is done, you will also be seeing a prompt which says that the model is getting trained the model will be trained and will be stored in .h5 format under the same folder.
+  * In case you are providing option 2, the newly saved model will be loaded for prediction, once it is successfully loaded you will be able to see a prompt saying "The weight of the model has been restored from the saved file"
+  * You will now be asked to provide the name of the folder in which the continuous data is present aka, the data which needs to be predicted.
   * You will now see the processing of the test data getting predicted by the model in a pictorial representation. 
-  * Once the above step is completed, there will be two .html data being generated and stored in project folder. One html will be having the information about all the events which have taken place, and the other one will have the consolidated informations.
-  * In the next step you will now see a prompt saying press 1 to send the consolidated file as an email and 2 to exit.
+  * Once the above step is completed, there will be two .html data being generated and stored in the project folder. One HTML will be having the information about all the events which have taken place, and the other one will have the consolidated pieces of information.
+  * In the next step, you will now see a prompt saying press 1 to send the consolidated file as an email and 2 to exit.
   * If option 1 is given, the prompt will now ask the user to provide an email address, to send the report.
-  * If a vaild email address is provided, the .html report will be sent in the email.
-  * Once the email is sent successfully, you will see an message stating that the email has been sent successfully.
-  * Note: In case if you dont see the email on the inbox, please check on your spam folder.
+  * If a valid email address is provided, the .html report will be sent in the email.
+  * Once the email is sent successfully, you will see a message stating that the email has been sent successfully.
+  * Note: In case you don't see the email in the inbox, please check your spam folder.
   
-  If you want your own email address to send the report to the recipient the please follw the instructions provided below.
+(Optional)
+  If you want your email address to send the report to the recipient please follow the instructions provided below.
    
-   * Create a new gmail account ( highly recommended ) or use an existing email addess.
+   * Create a new gmail account ( highly recommended ) or use an existing email address.
    * Navigate to " Manage your account " as shown in the below mentioned screenshot.
    ![Screenshot 2022-07-20 232119](https://user-images.githubusercontent.com/105304976/180122968-d8da207c-1e8d-490c-9171-40fd8a009512.png)
    * Click on security and the click on 2SV
@@ -172,6 +173,9 @@ This file will be generated in form of .html
   * Once it is generated you will see a 16 digit verification code. Kindly save it on a notepad.
   ![Screenshot 2022-07-20 233117](https://user-images.githubusercontent.com/105304976/180124049-c93a71ca-299d-4479-9235-4be5b89e4869.png)
   * Now open the emailhandler.py from our project file and provide the newly created email address in the sender and past the 16 digit password to the password variable.
+  
+  # Demo
+  https://user-images.githubusercontent.com/105304976/180585582-c0ad7cf1-e338-42ed-843b-ec6ea322dc66.mp4
   
  
 
