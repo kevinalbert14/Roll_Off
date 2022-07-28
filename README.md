@@ -128,18 +128,13 @@ This file will be generated in form of .html
 # Operating instruction
 
 * Clone the repo
-* Execute the .requirements file so that it will install all the dependencies 
+* Execute the .requirements file so that it will install all the dependencies using ( pip install -r requirements. txt ) it will take atleast 15 minutes.
 * Execute the main.py file
 
 ### Note:
 *To execute the file you will need access to the dataset since we have signed the NDA agreement we are unable to publish the dataset here. In case you have the dataset, please follow the next process.
 * The dataset will be divided into two folders. 1) waste folder ( which will have all the training images for the model ) 2) Test folder ( The file which needs to be predicted )
 * All these folders have to be in the same folder in order to successfully run the code.
-
-# Troubleshooting instruction
- 
-In case you find any error while running the main.py file, it should probably be because ceratin libraries may not have been installed in the .requirements file.
- So, kindly install those libraries which u get to see in the error.
  
  # Working instructions:
   
@@ -158,7 +153,7 @@ After the setup of the code is completed, Kindly follow the below-mentioned step
   * Once the email is sent successfully, you will see a message stating that the email has been sent successfully.
   * Note: In case you don't see the email in the inbox, please check your spam folder.
   
-(Optional)
+
   If you want your email address to send the report to the recipient please follow the instructions provided below.
    
    * Create a new gmail account ( highly recommended ) or use an existing email address.
@@ -173,6 +168,10 @@ After the setup of the code is completed, Kindly follow the below-mentioned step
   * Once it is generated you will see a 16 digit verification code. Kindly save it on a notepad.
   ![Screenshot 2022-07-20 233117](https://user-images.githubusercontent.com/105304976/180124049-c93a71ca-299d-4479-9235-4be5b89e4869.png)
   * Now open the emailhandler.py from our project file and provide the newly created email address in the sender and past the 16 digit password to the password variable.
+  
+  # Troubleshooting steps
+  *) Installing the .requirements file will take upto 15 - 20 minutes.
+  *) Incase if there is an error throw because of the file emailhandler.py, kindly delete the word "ssl" from the first line of code. It has to be import smtplib instead of import smtplib, ssl. This error should have occurred because the gmail would not have properly linked. Once done the rest of the code will work without any error.
   
   # Demo
   https://user-images.githubusercontent.com/105304976/180585582-c0ad7cf1-e338-42ed-843b-ec6ea322dc66.mp4
